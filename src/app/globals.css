@@ -4,3 +4,19 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+:root {
+  --color-darker-gray: #1d1d1f;
+  --color-dark-gray: #313133;
+  --color-gray: #3d3d3f;
+  --color-light-gray: #4c4b50;
+  --color-lighter-gray: #a1a1a1;
+  --color-white: #fff;
+
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--color-darker-gray);
+  color: var(--color-white);
+}
