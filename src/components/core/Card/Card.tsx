@@ -6,7 +6,7 @@ type CardProps = React.HTMLAttributes<HTMLDivElement>;
 // Main
 const Card: React.FC<CardProps> & { Footer: React.FC<CardProps> } & { Header: React.FC<CardProps> } = ({ children, className, ...rest }) => {
     return (
-        <div className={`${styles.main} ${className}`} {...rest}>
+        <div className={`${styles.main} drop-shadow-sm ${className}`} {...rest}>
             {children}
         </div>
     );
