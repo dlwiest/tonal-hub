@@ -1,12 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Oswald, Roboto } from "next/font/google";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 
 import '@mantine/core/styles.css';
 import "./globals.css";
 import styles from "./layout.module.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const oswaldMedium = Oswald({
+    subsets: ["latin"],
+    display: 'swap',
+    variable: '--font-oswald-medium',
+    weight: "500",
+});
+
+const roboto = Roboto({
+    subsets: ["latin"],
+    display: 'swap',
+    variable: '--font-roboto',
+    weight: "400",
+});
 
 export const metadata: Metadata = {
     title: "TonalHub",
@@ -23,7 +35,7 @@ export default function RootLayout({
             <head>
                 <ColorSchemeScript />
             </head>
-            <body className={inter.className}>
+            <body className={`${oswaldMedium.variable} ${roboto.variable}`}>
                 <MantineProvider>
                     <div className={styles.container}>
                         {children}
