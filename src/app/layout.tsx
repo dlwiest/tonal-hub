@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Oswald, Roboto } from "next/font/google";
-import { MantineProvider, ColorSchemeScript } from "@mantine/core";
+import { ColorSchemeScript } from "@mantine/core";
 
 import '@mantine/core/styles.css';
 import "./globals.css";
 import styles from "./layout.module.css";
+import Providers from './providers';
 
 const oswaldMedium = Oswald({
     subsets: ["latin"],
@@ -36,11 +37,11 @@ export default function RootLayout({
                 <ColorSchemeScript />
             </head>
             <body className={`${oswaldMedium.variable} ${roboto.variable}`}>
-                <MantineProvider>
+                <Providers>
                     <div className={styles.container}>
                         {children}
                     </div>
-                </MantineProvider>
+                </Providers>
             </body>
         </html>
     );

@@ -1,6 +1,5 @@
 .main {
     display: flex;
-    margin-top: 4rem;
     flex-wrap: wrap;
     gap: 1rem;
 }
