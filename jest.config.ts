@@ -5,7 +5,6 @@ const createJestConfig = nextJest({
     dir: './',
 })
 
-
 const config = {
   clearMocks: true,
   collectCoverage: true,

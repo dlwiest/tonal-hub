@@ -1,0 +1,30 @@
+.mantine-button {
+    border-radius: 8px;
+    font-family: var(--font-roboto-medium);
+    font-weight: 500;
+  }
+  
+  .mantine-button:active {
+    filter: none;
+  }
+  
+  .mantine-input {
+    background-color: var(--color-dark-gray);
+    border-radius: 8px;
+    /*--drop-shadow-sm: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));*/
+    box-shadow: inset -1px -1px 1px rgba(255, 255, 255, .1), inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+    color: var(--color-white);
+  }
+
+  .mantine-input::placeholder {
+    color: var(--color-lighter-gray);
+  }
+  
+  .mantine-input-section > svg {
+    height: 1.3rem;
+    color: var(--color-lighter-gray);
+  }
+
+  .mantine-input-label {
+    font-size: 0.95rem;
+  }

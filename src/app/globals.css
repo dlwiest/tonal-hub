@@ -11,6 +11,7 @@
   --color-gray: #3d3d3f;
   --color-light-gray: #4c4b50;
   --color-lighter-gray: #a1a1a1;
+  --color-lightest-gray: #c8c8c8;
   --color-white: #efefef;
 
   --drop-shadow-sm: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
@@ -32,16 +33,20 @@ h1, h2, h3 {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--color-white);
+  transition: color 0.1s ease-in-out;
+}
+
+a:hover {
+  color: var(--color-lightest-gray);
+}
+
 button {
   cursor: pointer;
-}
-
-.mantine-button {
   filter: var(--drop-shadow-sm);
-}
-
-.mantine-button:active {
-  filter: none;
 }
 
 /* Utility */

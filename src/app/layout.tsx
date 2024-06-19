@@ -4,6 +4,8 @@ import { ColorSchemeScript } from "@mantine/core";
 
 import '@mantine/core/styles.css';
 import "./globals.css";
+import "./mantineOverrides.css";
+
 import styles from "./layout.module.css";
 import Providers from './providers';
 
@@ -21,6 +23,13 @@ const roboto = Roboto({
     weight: "400",
 });
 
+const robotoMedium = Roboto({
+    subsets: ["latin"],
+    display: 'swap',
+    variable: '--font-roboto-medium',
+    weight: "500",
+});
+
 export const metadata: Metadata = {
     title: "TonalHub",
     description: "Find your next Tonal workout here",
@@ -34,9 +43,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
-                <ColorSchemeScript />
+                <ColorSchemeScript defaultColorScheme="dark" />
             </head>
-            <body className={`${oswaldMedium.variable} ${roboto.variable}`}>
+            <body className={`${oswaldMedium.variable} ${roboto.variable} ${robotoMedium.variable}`}>
                 <Providers>
                     <div className={styles.container}>
                         {children}

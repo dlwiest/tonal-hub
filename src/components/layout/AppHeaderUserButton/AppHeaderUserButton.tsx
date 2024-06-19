@@ -13,7 +13,7 @@ export default function AppHeaderUserButton() {
 
     return (
         <div className={styles.main}>
-            <button className={`${styles.button} drop-shadow-sm`} onClick={handleClick}>
+            <button className={styles.button} onClick={handleClick}>
                 <UserIcon className={styles.icon} />
             </button>
         </div>
