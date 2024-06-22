@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 
 export type RegisterState = { 
     status: 'success' | 'error';
-    isEmailTaken: boolean;
+    isEmailTaken?: boolean;
 } | null;
 
 // Register a new user

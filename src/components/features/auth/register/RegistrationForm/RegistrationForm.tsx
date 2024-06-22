@@ -58,10 +58,11 @@ const RegistrationForm = () => {
     });
 
     const [state, formAction] = useFormState<RegisterState, RegisterFormData>(register, null);
+    console.log('state', state);
     const action: () => void = handleSubmit(async (data) => await formAction(data));
 
     return (
-        <form className={styles.main} autoComplete="off" action={action} noValidate>
+        <form className={styles.main} autoComplete="off" action={action} noValidate role="form">
             <TextInput
                 name="username"
                 label="Username"

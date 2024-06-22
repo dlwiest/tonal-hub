@@ -19,7 +19,7 @@ const theme = createTheme({
         PasswordInput: PasswordInput.extend({
             classNames: {
                 input: 'mantine-input',
-                innerInput: 'mantine-input',
+                innerInput: 'mantine-input mantine-inner-input',
                 label: 'mantine-input-label',
                 section: 'mantine-input-section',
             }
