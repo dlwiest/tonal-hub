@@ -4,6 +4,13 @@
     gap: 1rem;
 }
 
+.serverError {
+    color: var(--mantine-color-error);
+    font-size: var(--mantine-font-size-sm);
+    text-align: center;
+}
+
 .submitButton {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }

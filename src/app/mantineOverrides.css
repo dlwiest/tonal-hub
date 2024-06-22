@@ -10,10 +10,15 @@
   
   .mantine-input {
     background-color: var(--color-dark-gray);
+    border: none;
     border-radius: 8px;
-    /*--drop-shadow-sm: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));*/
     box-shadow: inset -1px -1px 1px rgba(255, 255, 255, .1), inset 1px 1px 1px rgba(0, 0, 0, 0.1);
     color: var(--color-white);
+  }
+
+  .mantine-input:focus {
+    outline: 2px solid var(--mantine-color-primary-filled);
+    outline-offset: -2px;
   }
 
   .mantine-input::placeholder {
@@ -26,5 +31,10 @@
   }
 
   .mantine-input-label {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+  }
+
+  .mantine-title {
+    font-family: var(--font-sen-semibold);
+    font-weight: 500;
   }

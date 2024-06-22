@@ -3,7 +3,7 @@
     max-width: 26rem;
 }
 
-.footer {
-    display: flex;
-    justify-content: flex-end;
+.loginBlurb {
+    text-align: right;
+    margin-top: 0.5rem;
 }

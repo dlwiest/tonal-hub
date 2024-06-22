@@ -1,4 +1,4 @@
-import { Button } from '@mantine/core';
+import { Button, Title } from '@mantine/core';
 import Card from '@/components/core/Card/Card';
 import styles from './page.module.css';
 
@@ -22,7 +22,7 @@ const Home = () => {
 
             <Card className={`${styles.mr1} ${styles.grow}`}>
                 <Card.Header>
-                    <h1>Find your next Tonal workout here</h1>
+                    <Title order={1} size="h1">Find your next Tonal workout here</Title>
                 </Card.Header>
             </Card>
 
