@@ -1,5 +1,8 @@
-export interface LoginFormData {
+export interface PasswordRecoveryFormData {
     email: string;
+}
+
+export interface LoginFormData extends PasswordRecoveryFormData {
     password: string;
 }
 

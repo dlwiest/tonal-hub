@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
-import { Button } from '@mantine/core';
+import { Button, Text } from '@mantine/core';
 import { PasswordInput, TextInput } from 'react-hook-form-mantine';
 import { UserIcon, EnvelopeIcon, KeyIcon } from '@heroicons/react/24/outline';
 import styles from './RegistrationForm.module.css';
@@ -41,7 +41,7 @@ export const ServerErrorMessage = ({ state }: { state: RegisterState | null }) =
     const { pending } = useFormStatus();
 
     return !pending && state?.status === 'error' && !state.isEmailTaken && !state.isUsernameTaken && (
-        <span className={styles.serverError}>Unable to register user. Please try again.</span>
+        <Text ta="center" className={styles.serverError}>Unable to register user. Please try again.</Text>
     );
 }
 

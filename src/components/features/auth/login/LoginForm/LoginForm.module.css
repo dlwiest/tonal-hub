@@ -4,10 +4,13 @@
     gap: 1rem;
 }
 
+.recoveryLink {
+    margin-top: 0.25rem;
+}
+
 .error {
     color: var(--mantine-color-error);
     font-size: var(--mantine-font-size-sm);
-    text-align: center;
 }
 
 .submitButton {
