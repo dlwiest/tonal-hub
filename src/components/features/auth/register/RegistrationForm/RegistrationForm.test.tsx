@@ -18,7 +18,6 @@ jest.mock('react-dom', () => {
 		...originalModule,
 		useFormStatus: jest.fn(),
 		useFormState: jest.fn((action, _) => {
-			let state = null;
 			const mockFormAction = jest.fn(async (data) => {
 				const result = await action(data);
 				return result;

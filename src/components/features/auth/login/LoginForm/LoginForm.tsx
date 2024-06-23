@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { Button } from '@mantine/core';
 import { PasswordInput, TextInput } from 'react-hook-form-mantine';
-import { UserIcon, EnvelopeIcon, KeyIcon } from '@heroicons/react/24/outline';
+import { EnvelopeIcon, KeyIcon } from '@heroicons/react/24/outline';
 import styles from './LoginForm.module.css';
 import { LoginFormData } from '@/types/forms';
 import { zodResolver } from '@hookform/resolvers/zod';
