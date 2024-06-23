@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
-import { Oswald, Roboto } from "next/font/google";
+import { Sen, Roboto } from "next/font/google";
 import { ColorSchemeScript } from "@mantine/core";
 
 import '@mantine/core/styles.css';
 import "./globals.css";
+import "./mantineOverrides.css";
+
 import styles from "./layout.module.css";
 import Providers from './providers';
 
-const oswaldMedium = Oswald({
+const senSemibold = Sen({
     subsets: ["latin"],
     display: 'swap',
-    variable: '--font-oswald-medium',
+    variable: '--font-sen-semibold',
     weight: "500",
 });
 
@@ -19,6 +21,20 @@ const roboto = Roboto({
     display: 'swap',
     variable: '--font-roboto',
     weight: "400",
+});
+
+const robotoMedium = Roboto({
+    subsets: ["latin"],
+    display: 'swap',
+    variable: '--font-roboto-medium',
+    weight: "500",
+});
+
+const robotoBold = Roboto({
+    subsets: ["latin"],
+    display: 'swap',
+    variable: '--font-roboto-bold',
+    weight: "700",
 });
 
 export const metadata: Metadata = {
@@ -34,9 +50,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
-                <ColorSchemeScript />
+                <ColorSchemeScript defaultColorScheme="dark" />
             </head>
-            <body className={`${oswaldMedium.variable} ${roboto.variable}`}>
+            <body className={`${senSemibold.variable} ${roboto.variable} ${robotoMedium.variable} ${robotoBold.variable}`}>
                 <Providers>
                     <div className={styles.container}>
                         {children}

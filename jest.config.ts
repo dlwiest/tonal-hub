@@ -5,14 +5,14 @@ const createJestConfig = nextJest({
     dir: './',
 })
 
-
 const config = {
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: "coverage",
   coverageProvider: "v8",
   moduleNameMapper: {
-    '\\.module\\.css$': 'identity-obj-proxy'
+    '\\.module\\.css$': 'identity-obj-proxy',
+    "^@/lib/(.*)$": "<rootDir>/src/lib/$1"
   },
   preset: 'ts-jest',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],

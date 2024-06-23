@@ -1,0 +1,49 @@
+.mantine-button {
+    border-radius: 6px;
+    font-family: var(--font-roboto-medium);
+    font-weight: 500;
+  }
+  
+  .mantine-button:active {
+    filter: none;
+  }
+  
+  .mantine-input {
+    background-color: var(--color-dark-gray);
+    border: 1px solid var(--color-light-gray);
+    border-radius: 6px;
+    color: var(--color-white);
+  }
+
+  .mantine-input:focus-within{
+    outline: 2px solid var(--mantine-color-primary-filled);
+    outline-offset: -1px;
+  }
+
+  .mantine-input::placeholder {
+    color: var(--color-lighter-gray);
+  }
+
+  .mantine-inner-input {
+    outline: none;
+    border: none;
+  }
+
+  .mantine-inner-input:focus {
+    outline: none;
+    border: none;
+  }
+  
+  .mantine-input-section > svg {
+    height: 1.3rem;
+    color: var(--color-lighter-gray);
+  }
+
+  .mantine-input-label {
+    font-size: 0.9rem;
+  }
+
+  .mantine-title {
+    font-family: var(--font-sen-semibold);
+    font-weight: 500;
+  }

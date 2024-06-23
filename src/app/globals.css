@@ -11,6 +11,7 @@
   --color-gray: #3d3d3f;
   --color-light-gray: #4c4b50;
   --color-lighter-gray: #a1a1a1;
+  --color-lightest-gray: #c8c8c8;
   --color-white: #efefef;
 
   --drop-shadow-sm: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
@@ -26,21 +27,24 @@ body {
   font-family: var(--font-roboto);
 }
 
-h1, h2, h3 {
-  font-family: var(--font-oswald-medium);
+a {
+  text-decoration: none;
+  font-family: var(--font-roboto-medium);
   font-weight: 500;
-  margin: 0;
+  color: var(--mantine-color-primary-6);
+  transition: color 0.1s ease-in-out;
+}
+
+a:hover {
+  color: var(--mantine-color-primary-7);
 }
 
 button {
   cursor: pointer;
-}
-
-.mantine-button {
   filter: var(--drop-shadow-sm);
 }
 
-.mantine-button:active {
+button:active {
   filter: none;
 }
 
