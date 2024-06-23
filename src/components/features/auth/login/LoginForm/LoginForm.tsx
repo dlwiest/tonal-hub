@@ -44,7 +44,7 @@ export const LoginErrorMessage = ({ state }: { state: LoginState | null }) => {
 }
 
 const LoginForm = () => {
-    const { control, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
+    const { control, handleSubmit } = useForm<LoginFormData>({
         resolver: zodResolver(LoginFormSchema),
         defaultValues: {
             email: '',
