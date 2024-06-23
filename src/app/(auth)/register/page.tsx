@@ -14,7 +14,9 @@ const RegisterPage = () => {
 
             <RegistrationForm />
 
-            <Text className={styles.loginBlurb}>Already a member? <Link href="/login">Log in</Link></Text>
+            <Card.Footer>
+                <Text className={styles.loginBlurb}>Already a member? <Link href="/login">Log in</Link></Text>
+            </Card.Footer>
         </Card>
     )
 }
