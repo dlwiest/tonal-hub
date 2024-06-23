@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
-import { Button } from '@mantine/core';
+import { Button, Text } from '@mantine/core';
 import { PasswordInput, TextInput } from 'react-hook-form-mantine';
 import { EnvelopeIcon, KeyIcon } from '@heroicons/react/24/outline';
 import styles from './LoginForm.module.css';
@@ -10,6 +10,7 @@ import { LoginFormData } from '@/types/forms';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFormState, useFormStatus } from 'react-dom';
 import { LoginState, login } from './actions';
+import Link from 'next/link';
 
 const LoginFormSchema: ZodType<LoginFormData> = z.object({
     email: z
@@ -37,9 +38,9 @@ export const LoginErrorMessage = ({ state }: { state: LoginState | null }) => {
     }
 
     if (state.authError) {
-        return <span className={styles.error}>Invalid email or password</span>;
+        return <Text ta="center" className={styles.error}>Invalid email or password</Text>;
     } else {
-        return <span className={styles.error}>Unable to log you in. Please try again.</span>;
+        return <Text ta="center" className={styles.error}>Unable to log you in. Please try again.</Text>;
     }
 }
 
@@ -67,14 +68,17 @@ const LoginForm = () => {
                 size="md"
             />
 
-            <PasswordInput
-                name="password"
-                label="Password"
-                placeholder="Password"
-                rightSection={<KeyIcon />}
-                control={control}
-                size="md"
-            />
+            <div>
+                <PasswordInput
+                    name="password"
+                    label="Password"
+                    placeholder="Password"
+                    rightSection={<KeyIcon />}
+                    control={control}
+                    size="md"
+                />
+                <Text size="sm" ta="right" className={styles.recoveryLink}><Link href="/password-recovery">Forgot your password?</Link></Text>
+            </div>
 
             <SubmitButton />
             <LoginErrorMessage state={state} />

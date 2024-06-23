@@ -9,12 +9,11 @@ export type LoginState = {
     authError?: boolean;
 } | null;
 
-// Register a new user
+// Log in a user
 export async function login(_: LoginState, data: LoginFormData): Promise<LoginState> {
     const supabase = createClient();
 
     try {
-        // Try to log them in
         const { error } = await supabase.auth.signInWithPassword({ email: data.email, password: data.password });
 
         if (error) {

@@ -15,7 +15,7 @@ const LoginPage = () => {
             <LoginForm />
 
             <Card.Footer>
-                <Text className={styles.registerBlurb}>Not a member? <Link href="/register">Sign up</Link></Text>
+                <Text ta="right">Not a member? <Link href="/register">Sign up</Link></Text>
             </Card.Footer>
         </Card>
     )
