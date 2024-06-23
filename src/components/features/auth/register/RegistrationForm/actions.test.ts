@@ -3,37 +3,57 @@ import { register } from './actions';
 import * as nextNavigation from 'next/navigation';
 
 jest.mock('next/navigation', () => ({
-    redirect: jest.fn()
+	redirect: jest.fn(),
 }));
 
-jest.mock('@/lib/supabase/server', () => ({
-    createClient: jest.fn().mockReturnValue({
-        auth: {
-            signUp: jest.fn()
+jest.mock('@/lib/supabase/server', () => {
+    let fetchResponseData = { data: [], error: null };
+	return {
+		createClient: jest.fn().mockReturnValue({
+			auth: {
+				signUp: jest.fn(),
+			},
+			from: jest.fn().mockImplementation(() => ({
+				select: jest.fn().mockImplementation(() => ({
+					eq: jest.fn().mockResolvedValue(fetchResponseData),
+				})),
+			})),
+		}),
+        setFetchResponseData: (data: any) => {
+            fetchResponseData = data;
         }
-    })
-}));
+	};
+});
 
 describe('register', () => {
-    const mockEmail = 'test@example.com';
-    const mockPassword = 'password123';
-    const mockUsername = 'testuser';
+	const mockEmail = 'test@example.com';
+	const mockPassword = 'password123';
+	const mockUsername = 'testuser';
 
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+	beforeEach(() => {
+		jest.clearAllMocks();
+        require('@/lib/supabase/server').setFetchResponseData({ data: [], error: null });
+	});
 
-    it('should register a new user successfully', async () => {
-        const mockSignUp = jest.fn().mockResolvedValue({ user: { id: '123' }, error: null });
-        const supabase = createClient();
-        supabase.auth.signUp = mockSignUp;
+	it('should register a new user successfully', async () => {
+		const mockSignUp = jest.fn().mockResolvedValue({ user: { id: '123' }, error: null });
+		const supabase = createClient();
+		supabase.auth.signUp = mockSignUp;
 
-        const result = await register(null, { email: mockEmail, password: mockPassword, username: mockUsername });
+		const result = await register(null, { email: mockEmail, password: mockPassword, username: mockUsername });
 
-        expect(mockSignUp).toHaveBeenCalledWith({ email: mockEmail, password: mockPassword });
-        expect(result).toEqual(undefined);
-        expect(nextNavigation.redirect).toHaveBeenCalledWith('/');
-    });
+		expect(mockSignUp).toHaveBeenCalledWith({
+			email: mockEmail,
+			password: mockPassword,
+			options: {
+				data: {
+					username: mockUsername,
+				},
+			},
+		});
+		expect(result).toEqual(undefined);
+		expect(nextNavigation.redirect).toHaveBeenCalledWith('/');
+	});
 
     it('should handle error when email is already taken', async () => {
         const mockError = { message: 'Email already in use', code: 'user_already_exists' };
@@ -43,8 +63,24 @@ describe('register', () => {
 
         const result = await register(null, { email: mockEmail, password: mockPassword, username: mockUsername });
 
-        expect(mockSignUp).toHaveBeenCalledWith({ email: mockEmail, password: mockPassword });
+        expect(mockSignUp).toHaveBeenCalledWith({
+            email: mockEmail,
+            password: mockPassword,
+            options: {
+                data: {
+                    username: mockUsername
+                }
+            }
+        });
         expect(result).toEqual({ status: 'error', isEmailTaken: true });
+        expect(nextNavigation.redirect).not.toHaveBeenCalled();
+    });
+
+    it('should handle error when username is already taken', async () => {
+        require('@/lib/supabase/server').setFetchResponseData({ data: ['testuser'], error: null });
+
+        const result = await register(null, { email: mockEmail, password: mockPassword, username: mockUsername });
+        expect(result).toEqual({ status: 'error', isUsernameTaken: true });
         expect(nextNavigation.redirect).not.toHaveBeenCalled();
     });
 
@@ -56,7 +92,15 @@ describe('register', () => {
 
         const result = await register(null, { email: mockEmail, password: mockPassword, username: mockUsername });
 
-        expect(mockSignUp).toHaveBeenCalledWith({ email: mockEmail, password: mockPassword });
+        expect(mockSignUp).toHaveBeenCalledWith({
+            email: mockEmail,
+            password: mockPassword,
+            options: {
+                data: {
+                    username: mockUsername
+                }
+            }
+        });
         expect(result).toEqual({ status: 'error', isEmailTaken: false });
         expect(nextNavigation.redirect).not.toHaveBeenCalled();
     });

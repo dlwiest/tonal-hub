@@ -10,6 +10,8 @@ jest.mock('./actions', () => ({
 
 const mockRegister = register as jest.Mock;
 
+let mockFormState = { status: 'idle', isUsernameTaken: false, isEmailTaken: false };
+
 jest.mock('react-dom', () => {
     const originalModule = jest.requireActual('react-dom');
     return {
@@ -19,10 +21,9 @@ jest.mock('react-dom', () => {
             let state = null;
             const mockFormAction = jest.fn(async (data) => {
                 const result = await action(data);
-                state = result;
                 return result
             });
-            return [state, mockFormAction];
+            return [mockFormState, mockFormAction];
         }),
     };
 });
@@ -81,6 +82,13 @@ describe('ServerErrorMessage', () => {
 		renderWithMantine(<ServerErrorMessage state={{ status: 'error', isEmailTaken: true }} />);
 		expect(screen.queryByText('Unable to register user. Please try again.')).not.toBeInTheDocument();
 	});
+
+	it('should not show error if the cause is a duplicate username', () => {
+		require('react-dom').useFormStatus.mockReturnValue({ pending: false });
+
+		renderWithMantine(<ServerErrorMessage state={{ status: 'error', isUsernameTaken: true }} />);
+		expect(screen.queryByText('Unable to register user. Please try again.')).not.toBeInTheDocument();
+	});
 });
 
 // RegistrationForm
@@ -110,7 +118,7 @@ describe('RegistrationForm', () => {
 		expect(await screen.findByText('Password must be at least 8 characters')).toBeInTheDocument();
 	});
 
-	it('should not submit if username is invalid', async () => {
+	it('should not submit if username contains an invalid character', async () => {
 		fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'invalid username' } });
 		fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
 		fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
@@ -119,6 +127,16 @@ describe('RegistrationForm', () => {
 
 		expect(await screen.findByText('Username may only contain letters and numbers')).toBeInTheDocument();
 	});
+
+    it('should not submit if username is too long', async () => {
+        fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'a'.repeat(33) } });
+        fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+        fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
+
+        fireEvent.submit(screen.getByRole('form'));
+
+        expect(await screen.findByText('Username must be 32 characters or less')).toBeInTheDocument();
+    });
 
 	it('should submit if all conditions are met', async () => {
         require('react-dom').useFormStatus.mockReturnValue({ pending: false });
@@ -135,4 +153,30 @@ describe('RegistrationForm', () => {
             expect(mockRegister).toHaveBeenCalled();
         });
 	});
+
+	it('should show error if username is already in use', async () => {
+        mockFormState = { status: 'error', isUsernameTaken: true, isEmailTaken: false };
+
+        fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'testuser' } });
+        fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+        fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
+        fireEvent.submit(screen.getByRole('form'));
+
+        await waitFor(() => {
+            expect(screen.getByText('Username is already in use')).toBeInTheDocument();
+        });
+    });
+
+    it('should show error if email is already in use', async () => {
+        mockFormState = { status: 'error', isUsernameTaken: false, isEmailTaken: true };
+
+        fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'newuser' } });
+        fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+        fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
+        fireEvent.submit(screen.getByRole('form'));
+
+        await waitFor(() => {
+            expect(screen.getByText('Email is already in use')).toBeInTheDocument();
+        });
+    });
 });

@@ -29,14 +29,14 @@ body {
 
 a {
   text-decoration: none;
-  font-family: var(--font-roboto-bold);
-  font-weight: 700;
-  color: var(--color-white);
+  font-family: var(--font-roboto-medium);
+  font-weight: 500;
+  color: var(--mantine-color-primary-6);
   transition: color 0.1s ease-in-out;
 }
 
 a:hover {
-  color: var(--color-lightest-gray);
+  color: var(--mantine-color-primary-7);
 }
 
 button {

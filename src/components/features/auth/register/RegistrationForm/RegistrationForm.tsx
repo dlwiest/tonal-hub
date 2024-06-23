@@ -15,12 +15,10 @@ const RegisterFormSchema: ZodType<RegisterFormData> = z.object({
     username: z
         .string()
         .min(1, { message: 'Username is required' })
+        .max(32, { message: 'Username must be 32 characters or less' })
         .refine((s) => {
             return /^[a-zA-Z0-9]+$/.test(s);
-        }, { message: 'Username may only contain letters and numbers' })
-        .refine(async (e) => {
-            return true; // TODO: Use action to check if available
-        }, 'Username is already in use'),
+        }, { message: 'Username may only contain letters and numbers' }),
     email: z
         .string()
         .min(1, { message: 'Email is required' })
@@ -42,7 +40,7 @@ export const SubmitButton = () => {
 export const ServerErrorMessage = ({ state }: { state: RegisterState | null }) => {
     const { pending } = useFormStatus();
 
-    return !pending && state?.status === 'error' && !state.isEmailTaken && (
+    return !pending && state?.status === 'error' && !state.isEmailTaken && !state.isUsernameTaken && (
         <span className={styles.serverError}>Unable to register user. Please try again.</span>
     );
 }
@@ -58,7 +56,6 @@ const RegistrationForm = () => {
     });
 
     const [state, formAction] = useFormState<RegisterState, RegisterFormData>(register, null);
-    console.log('state', state);
     const action: () => void = handleSubmit(async (data) => await formAction(data));
 
     return (
@@ -67,9 +64,10 @@ const RegistrationForm = () => {
                 name="username"
                 label="Username"
                 placeholder="Username"
+                maxLength={32}
                 rightSection={<UserIcon />}
                 control={control}
-                error={errors.username?.message}
+                error={state?.isUsernameTaken ? 'Username is already in use' : errors.username?.message}
                 size="md"
             />
 

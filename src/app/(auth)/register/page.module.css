@@ -4,6 +4,7 @@
 }
 
 .loginBlurb {
+    font-size: 0.9rem;
+    margin-top: 1rem;
     text-align: right;
-    margin-top: 0.5rem;
 }
