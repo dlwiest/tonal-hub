@@ -84,6 +84,18 @@ describe('register', () => {
         expect(nextNavigation.redirect).not.toHaveBeenCalled();
     });
 
+    it('should handle errors during client creation', async () => {
+        const supabase = createClient();
+        supabase.auth.signUp = jest.fn().mockImplementation(() => {
+            throw new Error('Client creation failed');
+        });
+    
+        const result = await register(null, { email: mockEmail, password: mockPassword, username: mockUsername });
+    
+        expect(result).toEqual({ status: 'error' });
+        expect(nextNavigation.redirect).not.toHaveBeenCalled();
+    });
+
     it('should handle misc errors', async () => {
         const mockError = { message: 'An error occurred', code: 'unknown_error' };
         const mockSignUp = jest.fn().mockResolvedValue({ error: mockError });

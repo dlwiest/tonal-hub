@@ -13,19 +13,18 @@ const mockRegister = register as jest.Mock;
 let mockFormState = { status: 'idle', isUsernameTaken: false, isEmailTaken: false };
 
 jest.mock('react-dom', () => {
-    const originalModule = jest.requireActual('react-dom');
-    return {
-        ...originalModule,
-        useFormStatus: jest.fn(),
-        useFormState: jest.fn((action, _) => {
-            let state = null;
-            const mockFormAction = jest.fn(async (data) => {
-                const result = await action(data);
-                return result
-            });
-            return [mockFormState, mockFormAction];
-        }),
-    };
+	const originalModule = jest.requireActual('react-dom');
+	return {
+		...originalModule,
+		useFormStatus: jest.fn(),
+		useFormState: jest.fn((action, _) => {
+			const mockFormAction = jest.fn(async (data) => {
+				const result = await action(data);
+				return result;
+			});
+			return [mockFormState, mockFormAction];
+		}),
+	};
 });
 
 // SubmitButton
@@ -94,7 +93,7 @@ describe('ServerErrorMessage', () => {
 // RegistrationForm
 describe('RegistrationForm', () => {
 	beforeEach(() => {
-        mockRegister.mockReset();
+		mockRegister.mockReset();
 		renderWithMantine(<RegistrationForm />);
 	});
 
@@ -128,55 +127,55 @@ describe('RegistrationForm', () => {
 		expect(await screen.findByText('Username may only contain letters and numbers')).toBeInTheDocument();
 	});
 
-    it('should not submit if username is too long', async () => {
-        fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'a'.repeat(33) } });
-        fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-        fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
+	it('should not submit if username is too long', async () => {
+		fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'a'.repeat(33) } });
+		fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+		fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
 
-        fireEvent.submit(screen.getByRole('form'));
+		fireEvent.submit(screen.getByRole('form'));
 
-        expect(await screen.findByText('Username must be 32 characters or less')).toBeInTheDocument();
-    });
+		expect(await screen.findByText('Username must be 32 characters or less')).toBeInTheDocument();
+	});
 
 	it('should submit if all conditions are met', async () => {
-        require('react-dom').useFormStatus.mockReturnValue({ pending: false });
+		require('react-dom').useFormStatus.mockReturnValue({ pending: false });
 
-        fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'validUsername' } });
-        fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-        fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
+		fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'validUsername' } });
+		fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+		fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
 
-        await act(() => {
-            fireEvent.submit(screen.getByRole('form'));
-        });
+		await act(() => {
+			fireEvent.submit(screen.getByRole('form'));
+		});
 
-        await waitFor(() => {
-            expect(mockRegister).toHaveBeenCalled();
-        });
+		await waitFor(() => {
+			expect(mockRegister).toHaveBeenCalled();
+		});
 	});
 
 	it('should show error if username is already in use', async () => {
-        mockFormState = { status: 'error', isUsernameTaken: true, isEmailTaken: false };
+		mockFormState = { status: 'error', isUsernameTaken: true, isEmailTaken: false };
 
-        fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'testuser' } });
-        fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-        fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
-        fireEvent.submit(screen.getByRole('form'));
+		fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'testuser' } });
+		fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+		fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
+		fireEvent.submit(screen.getByRole('form'));
 
-        await waitFor(() => {
-            expect(screen.getByText('Username is already in use')).toBeInTheDocument();
-        });
-    });
+		await waitFor(() => {
+			expect(screen.getByText('Username is already in use')).toBeInTheDocument();
+		});
+	});
 
-    it('should show error if email is already in use', async () => {
-        mockFormState = { status: 'error', isUsernameTaken: false, isEmailTaken: true };
+	it('should show error if email is already in use', async () => {
+		mockFormState = { status: 'error', isUsernameTaken: false, isEmailTaken: true };
 
-        fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'newuser' } });
-        fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-        fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
-        fireEvent.submit(screen.getByRole('form'));
+		fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'newuser' } });
+		fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+		fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'validPassword123' } });
+		fireEvent.submit(screen.getByRole('form'));
 
-        await waitFor(() => {
-            expect(screen.getByText('Email is already in use')).toBeInTheDocument();
-        });
-    });
+		await waitFor(() => {
+			expect(screen.getByText('Email is already in use')).toBeInTheDocument();
+		});
+	});
 });
