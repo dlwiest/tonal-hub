@@ -1,4 +1,4 @@
-import { render, fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import SignoutButton from './SignoutButton';
 import * as actionModule from './actions';
 import { redirect } from 'next/navigation';
