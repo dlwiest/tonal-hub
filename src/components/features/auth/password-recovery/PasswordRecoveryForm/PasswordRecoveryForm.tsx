@@ -48,7 +48,7 @@ const PasswordRecoveryForm = () => {
     const action: () => void = handleSubmit(async (data) => await formAction(data));
 
     if (state?.status === 'success') {
-        return <Text>Password reset email sent. Please check your email for instructions.</Text>;
+        return <Text>Password reset link sent. Please check your email for instructions.</Text>;
     }
 
     return (

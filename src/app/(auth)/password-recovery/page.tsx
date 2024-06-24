@@ -1,6 +1,6 @@
 import Card from '@/components/core/Card/Card';
 import styles from './page.module.css';
-import PasswordRecoveryForm from '@/components/features/auth/password-recovery/PasswordRecoveryForm';
+import PasswordRecoveryForm from '@/components/features/auth/password-recovery/PasswordRecoveryForm/PasswordRecoveryForm';
 import { Title, Text } from '@mantine/core';
 
 const PasswordRecoveryPage = () => {

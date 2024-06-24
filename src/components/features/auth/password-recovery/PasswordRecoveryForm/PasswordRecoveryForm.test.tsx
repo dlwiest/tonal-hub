@@ -114,7 +114,7 @@ describe('PasswordRecoveryForm', () => {
         renderWithMantine(<PasswordRecoveryForm />);
 
         await waitFor(() => {
-            expect(screen.getByText('Password reset email sent. Please check your email for instructions.')).toBeInTheDocument();
+            expect(screen.getByText('Password reset link sent. Please check your email for instructions.')).toBeInTheDocument();
         });
     });
 });

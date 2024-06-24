@@ -9,3 +9,8 @@ export interface LoginFormData extends PasswordRecoveryFormData {
 export interface RegisterFormData extends LoginFormData {
     username: string;
 }
+
+export interface PasswordUpdateFormData {
+    authCode: string;
+    password: string;
+}
