@@ -1,6 +1,9 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+const PROTECTED_ROUTES = ['/dashboard'];
+const GUEST_ROUTES = ['/login', '/register', '/password-recovery', '/password-reset'];
+
 export async function middleware(request: NextRequest) {
     let response = NextResponse.next({
         request: {
@@ -54,19 +57,25 @@ export async function middleware(request: NextRequest) {
         }
     );
 
-    console.log('requesting user');
+    const { data: { user } } = await supabase.auth.getUser();
 
-    const user = await supabase.auth.getUser();
+    console.log('user', user);
+    console.log('routing');
 
-    console.log('done requesting user');
+    console.log("request.nextUrl.pathname", request.nextUrl.pathname);
 
-    console.log(user);
-
-    /*
-    if (request.nextUrl.pathname.startsWith('/dashboard') && user.error) {
-        return NextResponse.redirect(new URL('/auth/login', request.url))
+    if (user) {
+        console.log('logged in');
+        if (GUEST_ROUTES.includes(request.nextUrl.pathname)) {
+            return NextResponse.redirect(new URL('/dashboard', request.url));
+        }
+    } else {
+        console.log('not logged in');
+        if (PROTECTED_ROUTES.includes(request.nextUrl.pathname)) {
+            console.log('redirecting to login');
+            return NextResponse.redirect(new URL('/login', request.url));
+        }
     }
-    */
 
     return response;
 }
